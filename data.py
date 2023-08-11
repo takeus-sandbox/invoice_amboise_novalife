@@ -46,3 +46,9 @@ items = {
     38: ["Gobelet", 8],
     39: ["Boite à Burger", 8],
 }
+
+item_stack  = 20
+storage_truck = 24
+storage_player = 12
+
+storage_total = storage_truck + storage_player

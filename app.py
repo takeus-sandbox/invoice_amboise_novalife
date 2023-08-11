@@ -2,7 +2,7 @@ import csv, os
 import pandas as pd
 import data
 
-data.items_table = []
+items_table = [] # Tuple with ID & Quantity
 
 print("Atlas Transport Calculator")
 
@@ -12,42 +12,56 @@ while True:
         
         item_id = input("Item ID = ")
         item_qa = input("Quantity = ")
-        data.items_table.append((item_id,item_qa))
+        items_table.append((item_id,item_qa))
 
     else:
-        print(data.items_table)
+        #print(items_table)
         break
 
-total = 0
-for item in data.items_table:
-    total += int(data.items[int(item[0])][1]) * int(item[1])
-print(total)
+## Total Calculation
+total_price = 0
+total_quantity = 0
 
-with open("articles.csv", "w", newline="") as f:
+for item in items_table:
+    total_price += int(data.items[int(item[0])][1]) * int(item[1])
+    total_quantity += int(item[1])
+
+#print(total_price)
+#print(total_quantity)
+#print(total_quantity/float(data.item_stack),"/",int(data.storage_total))
+
+## CSV Creation
+with open("invoice.csv", "w", newline="") as f:
 
     writer = csv.writer(f)
-    writer.writerow(["article", "quantite", "prix unitaire", "prix"])
+    writer.writerow(["Article", "Amount", "Unit Price", "Total"])
 
-    for item in data.items_table:
+    for item in items_table:
         writer.writerow([
                 data.items[int(item[0])][0],
                 int(item[1]),
                 data.items[int(item[0])][1],
                 int(data.items[int(item[0])][1]) * int(item[1])
-            ])
-    writer.writerow(["",""])
-    writer.writerow(["Total", total])
+        ])
+    writer.writerow([""])
+    writer.writerow(["Total",total_quantity,"", total_price])
+    writer.writerow([""])
+    writer.writerow([""])
+    writer.writerow(["Items Stack", (total_quantity/int(data.item_stack))])
+    writer.writerow(["Transport", (total_quantity/int(data.item_stack))/data.storage_total])
 
+## Excel Conversion
 try: 
-    os.remove("articles.xlsx")
+    os.remove("invoice.xlsx")
 except:
     pass
 
-df = pd.read_csv("articles.csv")
-df.columns = ["article", "quantité", "prix unitaire", "prix"]
-df.to_excel("articles.xlsx", index=False)
+df = pd.read_csv("invoice.csv")
+df.columns = ["Article", "Amount", "Unit Price", "Total"]
+
+df.to_excel("invoice.xlsx", index=False)
 
 try: 
-    os.remove("articles.csv")
+    os.remove("invoice.csv")
 except:
     pass
