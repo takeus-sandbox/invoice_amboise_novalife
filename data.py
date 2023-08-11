@@ -44,7 +44,7 @@ items = {
     40: ["Batterie", 100],
     # Divers
     38: ["Gobelet", 8],
-    39: ["Boite à Burger", 8],
+    39: ["Boite a Burger", 8],
 }
 
 item_stack  = 20
