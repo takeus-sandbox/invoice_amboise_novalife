@@ -4,7 +4,13 @@ import data
 
 items_table = [] # Tuple with ID & Quantity
 
-print("Atlas Transport Calculator")
+os.system('cls')
+print("""====
+Atlas Transport Calculator
+Version : V1.1
+Dev & Support : Jack Pack (Livreur)
+====
+""")
 
 while True:
     user_input = input("Add Item (y/n) ")
